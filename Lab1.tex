@@ -1,0 +1,114 @@
+
+\section*{Lab 1: Combinational Circuits Part I}
+
+\setcounter{section}{1}
+\subsection{Homework Assignments}
+\subsubsection*{1A}
+I will not be using Questasim for the labs.
+
+\subsubsection*{1B.1}
+
+\begin{align*}
+	W &= \left(AB\right)' \\
+	X &= \left(WA\right)' = \left(\left(AB\right)'A\right)' \\
+	Y &= \left(WB\right)' = \left(\left(AB\right)'B\right)' \\
+	Z &= \left(XY\right)' = \left(\left(\left(AB\right)'A\right)' \cdot \left(\left( AB \right)' B \right)'\right)' \\ 
+	  &= AB' + A'B = A \oplus B
+\end{align*}
+
+Thus, $W$ is an XOR operation between $A$ And $B$
+
+\subsubsection*{1B.2}
+
+Delay time: $t_p = 10 \si{ns} = 10^{-8}\si{s}$
+
+\begin{figure}[H]
+	\begin{center}
+		\begin{tikztimingtable}[
+			timing/slope = 0,
+			timing/rowdist = 3*1.6ex,
+			timing/coldist = 2.2em,
+			timing/yunit = 1.6ex,
+			timing/xunit = 1.6ex,
+			% x = 0.35mm,
+			]
+			$A$ & 2L 10H 15L 10H 2L \\
+			$B$ & 7L 10H 5L 10H 7L \\
+			$W$ & 8H 5L 15H 5L 6H \\
+			$X$ & 3H 6L 19H 1L 5H 4L 1H \\
+			$Y$ & 8H 1L 5H 4L 5H 6L 4H 6L \\
+			$Z$ & 4L 6H 5L 4H 5L 6H 4L 5H \\
+			\extracode
+			\fulltablegrid[draw=black!70, line width=0.16ex, line cap=round,
+				dash pattern=on 0pt off 1.6ex, xstep=1, ystep=1];
+				\begin{scope}[semithick]
+					\draw[<->] (10,-16) -- ++(1,0)
+					node[midway, below, font=\scriptsize] {$10\si{ns}$};
+				\end{scope}
+		\end{tikztimingtable}
+
+	\end{center}
+	\caption{Timing diagram}\label{fig:timing}
+\end{figure}
+
+\subsubsection*{1C}
+
+\begin{figure}[H]
+	\centering
+	\begin{karnaugh-map}[4][4][1][][][][]
+		\minterms{5,7,12,13,14}
+		\maxterms{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
+		% \maxterms{0,1,2,3,4,6,8,9,10,11,15}
+		\implicantedge{12}{12}{14}{14}
+		\implicant{5}{7}
+		\implicant{5}{13}
+
+		\draw[decorate, decoration={brace, amplitude=5pt, raise=1pt}]
+			(2,5) -- (4,5) node[midway, yshift=0.35cm] {\small $A$};
+		\draw[decorate, decoration={brace, amplitude=5pt, raise=1pt}]
+			(3,-0.5) -- (1,-0.5) node[midway, yshift=-0.35cm] {\small $B$};
+		\draw[decorate, decoration={brace, amplitude=5pt, mirror, raise=1pt}]
+			(-1,2) -- (-1,0) node[midway, xshift=-0.4cm] {\small $C$};
+		\draw[decorate, decoration={brace, amplitude=5pt, mirror, raise=1pt}]
+			(4.5,1) -- (4.5,3) node[midway, xshift=0.4cm] {\small $D$};
+	\end{karnaugh-map}
+	\caption{Karnaugh map}\label{fig:kmap}
+\end{figure}
+
+This gives: $\displaystyle BC'D + A'BD + B'CD$
+
+Running in espresso:
+\begin{minted}[bgcolor=white]{text}
+	.i 4
+	.o 1
+	.ilb a b c d
+	.ob x
+	.p 8
+	0000 0
+	0001 0
+	0010 0
+	0011 1
+	0100 0
+	0101 1
+	0110 0
+	0111 1
+	1000 0
+	1001 0
+	1010 0
+	1011 1
+	1100 0
+	1101 1
+	1110 0
+	1111 0
+	.e
+\end{minted}
+
+Outputs:
+\begin{minted}[bgcolor=white]{text}
+	x = (!d&b&a) | (c&!b&a) | (!c&b&a);
+\end{minted}
+
+So:
+\[
+	X = ABD' + AB'C + B'CD
+\]
