@@ -165,6 +165,17 @@ Hooking up the physical circuit:
 
 \nonum{subsection}{Lab assignment 1C: Minimization and implementation}
 
+Espresso expression with only inverters and NAND gates:
+\[
+	X = A'CD + BC'D + B'CD = \left( \left(A'CD \right)'\left(VC'D\right)'\left(B'CD\right)' \right)'
+\]
+This expression can be built using 4 AND gates, and 4 inverters.
+
+Expression with XOR gate instead:
+\[
+	X = A'CD + BC'D + B'CD = A'CD + D(B\oplus C) = D(BC' + B\oplus C)
+\]
+This expression can be built using 2 AND gates, 1 NOT gate, 1 OR gate and 1 XOR gate.
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[width=0.95\textwidth]{figures/primev2.png}
