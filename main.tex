@@ -64,6 +64,10 @@
 \renewcommand{\familydefault}{\sfdefault}
 \sectionfont{\fontfamily{RobotoSlab-TLF}\selectfont}
 \setlength\parindent{0pt} %set no indent
+\newcommand{\nonum}[2]{
+	\csname #1\endcsname*{#2}
+	\addcontentsline{toc}{#1}{#2}
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
