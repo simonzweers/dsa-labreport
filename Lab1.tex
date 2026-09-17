@@ -36,7 +36,7 @@ Delay time: $t_p = 10 \si{ns} = 10^{-8}\si{s}$
 			$B$ & 7L 10H 5L 10H 7L \\
 			$W$ & 8H 5L 15H 5L 6H \\
 			$X$ & 3H 6L 19H 1L 5H 4L 1H \\
-			$Y$ & 8H 1L 5H 4L 5H 6L 4H 6L \\
+			$Y$ & 8H 1L 5H 4L 5H 6L 10H \\
 			$Z$ & 4L 6H 5L 4H 5L 6H 4L 5H \\
 			\extracode
 			\fulltablegrid[draw=black!70, line width=0.16ex, line cap=round,
@@ -128,6 +128,29 @@ The logic espressions are slightly different, but cover the same spaces in the k
 
 \nonum{subsection}{Lab assignment 1A: Introduction SV and QuestaSim}
 
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.95\textwidth]{figures/and_circuit.png}
+	\end{center}
+	\caption{And Circuit}\label{fig:and_circuit}
+\end{figure}
+
 \nonum{subsection}{Lab assignment 1B: Spikes}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.95\textwidth]{figures/spikes.png}
+	\end{center}
+	\caption{Spikes 10ns delay}\label{fig:spikes}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.95\textwidth]{figures/spikes1ns.png}
+	\end{center}
+	\caption{Spikes 1ns delay}\label{fig:spikes1ns}
+\end{figure}
+
+As you can see, the glitches are much shorter in the version with $1\si{ns}$ delay.
 
 \nonum{subsection}{Lab assignment 1C: Minimization and implementation}
