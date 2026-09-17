@@ -1,0 +1,52 @@
+\begin{circuitikz}[scale=1.2, transform shape]
+	% Custom NOT gate: triangle size and bubble size are independent
+	\tikzset{
+		notgate/.pic = {
+			\coordinate (-in) at (0,0);
+			\coordinate (-out) at (0.6,0);
+			\draw[thick] (0,0.22) -- (0,-0.22) -- (0.45,0) -- cycle; % <- resize triangle here
+			\draw[thick] (0.51,0) circle (0.06);                     % <- bubble stays fixed size
+		}
+	}
+
+	% First-level NAND gates
+	\node[nand port, number inputs=3] (g1) at (0,4) {};
+	\node[nand port, number inputs=3] (g2) at (0,2) {};
+	\node[nand port, number inputs=3] (g3) at (0,0) {};
+
+	% Output NAND gate, mirrored so its inputs face left
+	\node[nand port, number inputs=3, xscale=1] (g4) at (3,2) {};
+
+	% Connect first-level outputs to final gate
+	\draw (g1.out) -| ++(0.6,0) |- (g4.in 1);
+	\draw (g2.out) -- (g4.in 2);
+	\draw (g3.out) -| ++(0.6,0) |- (g4.in 3);
+
+	% --- NOT gates for inverted inputs ---
+	\pic (nA)  at ($(g1.in 1)+(-1.4,0)$) {notgate};
+	\pic (nC1) at ($(g2.in 2)+(-1.4,0)$) {notgate};
+	\pic (nB)  at ($(g3.in 1)+(-1.4,0)$) {notgate};
+
+	\draw (nA-out) -- (g1.in 1);
+	\draw (nA-in) -- ++(-0.6,0) node[left]{$A$};
+
+	\draw (nC1-out) -- (g2.in 2);
+	\draw (nC1-in) -- ++(-0.6,0) node[left]{$C$};
+
+	\draw (nB-out) -- (g3.in 1);
+	\draw (nB-in) -- ++(-0.6,0) node[left]{$B$};
+
+	% --- Direct (uninverted) inputs ---
+	\draw (g1.in 2) -- ++(-0.6,0) node[left]{$C$};
+	\draw (g1.in 3) -- ++(-0.6,0) node[left]{$D$};
+
+	\draw (g2.in 1) -- ++(-0.6,0) node[left]{$V$};
+	\draw (g2.in 3) -- ++(-0.6,0) node[left]{$D$};
+
+	\draw (g3.in 2) -- ++(-0.6,0) node[left]{$C$};
+	\draw (g3.in 3) -- ++(-0.6,0) node[left]{$D$};
+
+	% Output
+	\draw (g4.out) -- ++(0.7,0) node[right]{$F$};
+\end{circuitikz}
+

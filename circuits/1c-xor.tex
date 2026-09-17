@@ -1,0 +1,45 @@
+\begin{circuitikz}[scale=1.2, transform shape]
+	% Custom NOT gate: triangle size and bubble size are independent
+	\tikzset{
+		notgate/.pic = {
+			\coordinate (-in) at (0,0);
+			\coordinate (-out) at (0.6,0);
+			\draw[thick] (0,0.22) -- (0,-0.22) -- (0.45,0) -- cycle; % <- resize triangle here
+			\draw[thick] (0.51,0) circle (0.06);                     % <- bubble stays fixed size
+		}
+	}
+
+	% Gates
+	\node[and port, number inputs=2] (and1) at (0,3) {};  % B * C'
+	\node[xor port, number inputs=2] (xorg) at (0,1) {};  % B xor C
+	\node[or port,  number inputs=2] (org)  at (3,2) {};  % BC' + (B xor C)
+
+	% Position AND2 so its upper input (in 1) lands exactly on org.out's height
+	\coordinate (and2align) at ($(org.out)+(and1)-(and1.in 1)$);
+	\coordinate (and2xref) at (6,0);
+	\node[and port, number inputs=2] (and2) at (and2align -| and2xref) {};  % D * (...)
+
+	% NOT gate for C, feeding AND1
+	\pic (nC) at ($(and1.in 2)+(-1.4,0)$) {notgate};
+	\draw (nC-out) -- (and1.in 2);
+	\draw (nC-in) -- ++(-0.6,0) node[left]{$C$};
+
+	% AND1 input: B
+	\draw (and1.in 1) -- ++(-0.6,0) node[left]{$B$};
+
+	% XOR inputs: B, C
+	\draw (xorg.in 1) -- ++(-0.6,0) node[left]{$B$};
+	\draw (xorg.in 2) -- ++(-0.6,0) node[left]{$C$};
+
+	% OR gate combines AND1 and XOR outputs
+	\draw (and1.out) -- ++(0.8,0) |- (org.in 1);
+	\draw (xorg.out) -- ++(0.8,0) |- (org.in 2);
+
+	% Final AND with D
+	\draw (org.out) -- (and2.in 1);
+	\draw (and2.in 2) -- ++(-0.6,0) node[left]{$D$};
+
+	% Output
+	\draw (and2.out) -- ++(0.7,0) node[right]{$X$};
+\end{circuitikz}
+
